@@ -2,7 +2,7 @@ import collections
 
 
 def follow_trace(operands, matrix):
-    x, y = 0, 0
+    x, y = 0.0, 0.0
 
     delta_map = {
         'U': (0, -1),
@@ -11,23 +11,23 @@ def follow_trace(operands, matrix):
         'R': (1, 0)
     }
 
+    visited = {(0, 0)}
+    distance = 0
+
     for operand in operands:
-        visited = {(0, 0)}
         direction = operand[0]
         ct = int(operand[1:])
 
         dx, dy = delta_map[direction]
 
-        for step in range(ct):
+        for _ in range(ct):
             x += dx
             y += dy
+
+            distance += 1
             if (x, y) not in visited:
-                matrix[(x, y)] += (step,)  # 1
-                # print("Add", x, y, step, matrix[(x, y)])
+                matrix[(x, y)] += (distance,)  # 1
                 visited.add((x, y))
-                if len(matrix[(x, y)]) > 1:
-                    print("CROSS", x, y, sum(abs(x)
-                                             for x in matrix[(x, y)]), matrix[(x, y)])
 
 
 def min_distance(matrix):
@@ -38,7 +38,6 @@ def min_distance(matrix):
             distance = sum(abs(x) for x in crosses)  # abs(x) + abs(y)
             if min_distance is None or min_distance >= distance:
                 min_distance = distance
-                print("CRO", crosses, x, y, distance)
 
     return min_distance
 
